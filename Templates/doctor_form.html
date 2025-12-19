@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}{% if doctor %}Edit Doctor{% else %}Add Doctor{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card card-shadow p-4">
+      <h3 class="mb-3">{% if doctor %}Edit Doctor{% else %}Add Doctor{% endif %}</h3>
+
+      <!-- use same template for create & update -->
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Registration Number</label>
+            <input name="Registration_number" class="form-control" value="{{ doctor.Registration_number|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <input name="name" class="form-control" value="{{ doctor.name|default_if_none:'' }}" required>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Age</label>
+            <input name="age" type="number" class="form-control" value="{{ doctor.age|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Gender</label>
+            <select name="gender" class="form-select">
+              <option value="">Select</option>
+              <option value="Male" {% if doctor and doctor.gender == "Male" %}selected{% endif %}>Male</option>
+              <option value="Female" {% if doctor and doctor.gender == "Female" %}selected{% endif %}>Female</option>
+              <option value="Other" {% if doctor and doctor.gender == "Other" %}selected{% endif %}>Other</option>
+
+
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Experience (years)</label>
+            <input name="Experiance" type="number" class="form-control" value="{{ doctor.Experiance|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Qualification</label>
+            <input name="Qulification" class="form-control" value="{{ doctor.Qulification|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Specialization</label>
+            <input name="specialization" class="form-control" value="{{ doctor.specialization|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Timing</label>
+            <input name="timing" class="form-control" value="{{ doctor.timing|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Contact Number</label>
+            <input name="contact_number" class="form-control" value="{{ doctor.contact_number|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input name="email" type="email" class="form-control" value="{{ doctor.email|default_if_none:'' }}">
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Hospital Address</label>
+            <textarea name="Hospital_address" rows="3" class="form-control">{{ doctor.Hospital_address|default_if_none:'' }}</textarea>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+          <button type="submit" class="btn btn-success">{% if doctor %}Save Changes{% else %}Create Doctor{% endif %}</button>
+          <a href="{% url 'doctor_list' %}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

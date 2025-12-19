@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Patient Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card p-4">
+        <h2 class="mb-3">{{ patient.patient_name }}</h2>
+
+        <p><strong>Age:</strong> {{ patient.age }}</p>
+        <p><strong>Gender:</strong> {{ patient.gender }}</p>
+        <p><strong>Contact:</strong> {{ patient.contact }}</p>
+        <p><strong>Address:</strong> {{ patient.address }}</p>
+        <p><strong>Disease:</strong> {{ patient.disease }}</p>
+        <p><strong>Admitted On:</strong> {{ patient.admitted_date }}</p>
+
+        <div class="mt-4 d-flex gap-2">
+            <a href="{% url 'patient_update' patient.id %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'patient_list' %}" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

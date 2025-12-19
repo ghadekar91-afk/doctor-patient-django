@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ doctor.name }} — Doctor Details{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card card-shadow p-4">
+      <div class="d-flex align-items-center gap-4 mb-3">
+        <div class="avatar display-6">{{ doctor.name|slice:":1" }}</div>
+        <div>
+          <h3 class="mb-0">{{ doctor.name }}</h3>
+          <div class="muted">{{ doctor.specialization }} • {{ doctor.Qulification }}</div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6 mb-2"><strong>Registration #</strong><div class="muted">{{ doctor.Registration_number }}</div></div>
+        <div class="col-md-6 mb-2"><strong>Age / Gender</strong><div class="muted">{{ doctor.age }} / {{ doctor.gender }}</div></div>
+        <div class="col-md-6 mb-2"><strong>Experience</strong><div class="muted">{{ doctor.Experiance }} years</div></div>
+        <div class="col-md-6 mb-2"><strong>Timing</strong><div class="muted">{{ doctor.timing }}</div></div>
+        <div class="col-12 mb-2"><strong>Contact</strong><div class="muted">{{ doctor.contact_number }} • {{ doctor.email }}</div></div>
+        <div class="col-12"><strong>Hospital Address</strong><div class="muted">{{ doctor.Hospital_address|linebreaksbr }}</div></div>
+      </div>
+
+      <div class="mt-4 d-flex gap-2">
+        <a href="{% url 'doctor_update' doctor.pk %}" class="btn btn-outline-secondary">Edit</a>
+        <form method="post" action="{% url 'doctor_delete' doctor.pk %}" onsubmit="return confirm('Are you sure you want to delete?');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-danger">Delete</button>
+        </form>
+        <a href="{% url 'doctor_list' %}" class="btn btn-link">Back to list</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card card-shadow p-3">
+      <h6>Quick Info</h6>
+      <ul class="list-unstyled small muted">
+        <li><strong>Specialization:</strong> {{ doctor.specialization }}</li>
+        <li><strong>Qualification:</strong> {{ doctor.Qulification }}</li>
+        <li><strong>Experience:</strong> {{ doctor.Experiance }} years</li>
+        <li><strong>Timing:</strong> {{ doctor.timing }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

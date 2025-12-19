@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Doctors — Hospital Admin{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-0">Doctors</h2>
+    <p class="muted mb-0">Manage doctor records — view, edit or remove entries.</p>
+  </div>
+  <a href="{% url 'doctor_create' %}" class="btn btn-primary btn-lg">+ Add Doctor</a>
+</div>
+
+<div class="row g-3">
+  {% for doctor in doctors %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card card-shadow p-3 h-100">
+      <div class="d-flex gap-3">
+        <div class="avatar">{{ doctor.name|slice:":1" }}</div>
+        <div class="flex-grow-1">
+          <h5 class="mb-1">{{ doctor.name }}</h5>
+          <div class="muted small mb-2">{{ doctor.specialization }} • {{ doctor.Qulification }}</div>
+          <div class="small">
+            <strong>Timing:</strong> {{ doctor.timing }}<br>
+            <strong>Contact:</strong> {{ doctor.contact_number }}<br>
+            <strong>Hospital:</strong> {{ doctor.Hospital_address|truncatewords:10 }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 d-flex justify-content-between">
+        <div>
+          <a href="{% url 'doctor_detail' doctor.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+          <a href="{% url 'doctor_update' doctor.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+        </div>
+        <form action="{% url 'doctor_delete' doctor.pk %}" method="post" onsubmit="return confirm('Delete this doctor?');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <div class="card p-4 text-center">
+      <h5>No doctors found</h5>
+      <p class="muted">Click 'Add Doctor' to create new records.</p>
+      <a href="{% url 'doctor_create' %}" class="btn btn-primary">Add Doctor</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+{% if user.is_authenticated %}
+    Welcome {{ user.username }} |
+    <a href="{% url 'logout' %}">Logout</a>
+{% endif %}

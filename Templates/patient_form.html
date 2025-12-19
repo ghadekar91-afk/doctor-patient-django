@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{% if patient %}Edit Patient{% else %}Add Patient{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card card-shadow p-4">
+      <h3 class="mb-3">{% if patient %}Edit Patient{% else %}Add Patient{% endif %}</h3>
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Patient Name</label>
+            <input name="patient_name" class="form-control" value="{{ patient.patient_name|default_if_none:'' }}" required>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Age</label>
+            <input name="age" type="number" class="form-control" value="{{ patient.age|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Gender</label>
+            <select name="gender" class="form-select">
+              <option value="">Select</option>
+              <option value="Male" {% if patient and patient.gender == "Male" %}selected{% endif %}>Male</option>
+              <option value="Female" {% if patient and patient.gender == "Female" %}selected{% endif %}>Female</option>
+              <option value="Other" {% if patient and patient.gender == "Other" %}selected{% endif %}>Other</option>
+            </select>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Address</label>
+            <textarea name="address" class="form-control" rows="2">{{ patient.address|default_if_none:'' }}</textarea>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Contact Number</label>
+            <input name="contact" class="form-control" value="{{ patient.contact|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Disease</label>
+            <input name="disease" class="form-control" value="{{ patient.disease|default_if_none:'' }}">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Admitted Date</label>
+            <input name="admitted_date" type="date" class="form-control" value="{{ patient.admitted_date|date:'Y-m-d' }}">
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+          <button type="submit" class="btn btn-success">{% if patient %}Save Changes{% else %}Add Patient{% endif %}</button>
+          <a href="{% url 'patient_list' %}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
